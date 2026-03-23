@@ -349,8 +349,8 @@
       <div class="skills-grid">
         <div class="skill-cell">Visual Identity</div>
         <div class="skill-cell">Art Direction</div>
-        <div class="skill-cell">Design Consultation</div>
-        <div class="skill-cell">UI / UX integration</div>
+        <div class="skill-cell">Typography</div>
+        <div class="skill-cell">Poster Design</div>
         <div class="skill-cell">Brand Systems</div>
         <div class="skill-cell">Editorial</div>
         <div class="skill-cell">Figma / AI</div>
@@ -423,6 +423,9 @@
 <footer>
   <span class="footer-copy">© 2026 Jared Brainerd / Brainforge Studio. All rights reserved.</span>
   <div class="footer-links">
+    <a href="#">Instagram</a>
+    <a href="#">Behance</a>
+    <a href="#">Are.na</a>
     <a href="#">LinkedIn</a>
   </div>
 </footer>
@@ -468,6 +471,104 @@
   }
   animRing();
 
+  // ASTEROIDS
+  const astCanvas = document.createElement('canvas');
+  astCanvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:99996';
+  document.body.appendChild(astCanvas);
+  const ac = astCanvas.getContext('2d');
+  function resizeAst(){astCanvas.width=window.innerWidth;astCanvas.height=window.innerHeight}
+  resizeAst();
+  window.addEventListener('resize', resizeAst);
+
+  const asteroids = [];
+  const debris = [];
+  const astColors = ['rgba(232,244,248,0.25)','rgba(57,255,20,0.3)','rgba(255,0,255,0.2)','rgba(255,179,71,0.25)'];
+
+  function spawnAsteroid(){
+    const side = Math.floor(Math.random()*4);
+    let x,y;
+    const w=astCanvas.width, h=astCanvas.height;
+    if(side===0){x=Math.random()*w;y=-40}
+    else if(side===1){x=w+40;y=Math.random()*h}
+    else if(side===2){x=Math.random()*w;y=h+40}
+    else{x=-40;y=Math.random()*h}
+    const angle = Math.atan2(h/2-y, w/2-x) + (Math.random()-.5)*1.2;
+    const speed = Math.random()*0.6+0.3;
+    const r = Math.random()*18+8;
+    const numVerts = Math.floor(Math.random()*4)+6;
+    const verts = [];
+    for(let i=0;i<numVerts;i++){
+      const a = (i/numVerts)*Math.PI*2;
+      const rr = r*(0.7+Math.random()*0.5);
+      verts.push({x:Math.cos(a)*rr, y:Math.sin(a)*rr});
+    }
+    asteroids.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,rot:Math.random()*Math.PI*2,rotSpeed:(Math.random()-.5)*0.02,r,verts,color:astColors[Math.floor(Math.random()*astColors.length)]});
+  }
+
+  // spawn asteroids periodically
+  for(let i=0;i<6;i++) spawnAsteroid();
+  setInterval(()=>{ if(asteroids.length<10) spawnAsteroid(); }, 1800);
+
+  function spawnDebris(x,y,color){
+    for(let i=0;i<12;i++){
+      const angle=Math.random()*Math.PI*2;
+      const speed=Math.random()*3+1;
+      debris.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,life:1,decay:0.03+Math.random()*.04,r:Math.random()*4+1,color});
+    }
+  }
+
+  function asteroidHit(ast){
+    spawnDebris(ast.x, ast.y, ast.color);
+    const idx=asteroids.indexOf(ast);
+    if(idx>-1) asteroids.splice(idx,1);
+    // spawn replacement
+    setTimeout(spawnAsteroid, 800);
+  }
+
+  function drawAsteroids(){
+    ac.clearRect(0,0,astCanvas.width,astCanvas.height);
+    const w=astCanvas.width,h=astCanvas.height;
+
+    // update & draw asteroids
+    for(let i=asteroids.length-1;i>=0;i--){
+      const a=asteroids[i];
+      a.x+=a.vx; a.y+=a.vy; a.rot+=a.rotSpeed;
+      // remove if far offscreen
+      if(a.x<-200||a.x>w+200||a.y<-200||a.y>h+200){ asteroids.splice(i,1); spawnAsteroid(); continue; }
+      ac.save();
+      ac.translate(a.x,a.y);
+      ac.rotate(a.rot);
+      ac.strokeStyle=a.color;
+      ac.lineWidth=1.5;
+      ac.shadowColor=a.color;
+      ac.shadowBlur=6;
+      ac.beginPath();
+      ac.moveTo(a.verts[0].x,a.verts[0].y);
+      for(let v=1;v<a.verts.length;v++) ac.lineTo(a.verts[v].x,a.verts[v].y);
+      ac.closePath();
+      ac.stroke();
+      ac.restore();
+    }
+
+    // update & draw debris
+    for(let i=debris.length-1;i>=0;i--){
+      const d=debris[i];
+      d.x+=d.vx; d.y+=d.vy; d.vy+=0.05; d.life-=d.decay;
+      if(d.life<=0){debris.splice(i,1);continue}
+      ac.save();
+      ac.globalAlpha=d.life;
+      ac.fillStyle=d.color;
+      ac.shadowColor=d.color;
+      ac.shadowBlur=8;
+      ac.beginPath();
+      ac.arc(d.x,d.y,d.r,0,Math.PI*2);
+      ac.fill();
+      ac.restore();
+    }
+    requestAnimationFrame(drawAsteroids);
+  }
+  drawAsteroids();
+
   // LASER ON CLICK
   const laserCanvas = document.createElement('canvas');
   laserCanvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:99997';
@@ -490,7 +591,20 @@
       life: 1, decay: 0.04,
       width: Math.random() * 2 + 1
     });
-    // burst of 3 rays
+    // check laser hits on asteroids
+    for(let i=lasers.length-1;i>=0;i--){
+      const l=lasers[i];
+      const ex=l.x+Math.cos(l.angle)*l.len;
+      const ey=l.y+Math.sin(l.angle)*l.len;
+      for(let j=asteroids.length-1;j>=0;j--){
+        const a=asteroids[j];
+        // line-point distance check
+        const dx=ex-l.x,dy=ey-l.y;
+        const t=Math.max(0,Math.min(1,((a.x-l.x)*dx+(a.y-l.y)*dy)/(dx*dx+dy*dy)));
+        const cx=l.x+t*dx-a.x, cy=l.y+t*dy-a.y;
+        if(Math.sqrt(cx*cx+cy*cy)<a.r+4){ asteroidHit(a); break; }
+      }
+    }
     for(let i=0;i<2;i++){
       lasers.push({
         x: e.clientX, y: e.clientY,
