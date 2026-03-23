@@ -471,6 +471,22 @@
   }
   animRing();
 
+  // SCORE
+  let score = 0;
+  const scoreEl = document.createElement('div');
+  scoreEl.style.cssText = 'position:fixed;bottom:1.5rem;right:1.5rem;z-index:99999;font-family:"Space Mono",monospace;font-size:.45rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(57,255,20,0.6);text-align:right;pointer-events:none;line-height:1.6';
+  scoreEl.innerHTML = '<span style="color:rgba(232,244,248,.25)">Asteroids Destroyed</span><br><span id="score-num" style="font-size:.95rem;color:#39FF14;text-shadow:0 0 10px #39FF14">000</span>';
+  document.body.appendChild(scoreEl);
+  function updateScore(){
+    score++;
+    document.getElementById('score-num').textContent = String(score).padStart(3,'0');
+    // flash
+    const el = document.getElementById('score-num');
+    el.style.color = '#fff';
+    el.style.textShadow = '0 0 20px #39FF14';
+    setTimeout(()=>{ el.style.color='#39FF14'; el.style.textShadow='0 0 10px #39FF14'; }, 150);
+  }
+
   // ASTEROIDS
   const astCanvas = document.createElement('canvas');
   astCanvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:99996';
@@ -519,6 +535,7 @@
 
   function asteroidHit(ast){
     spawnDebris(ast.x, ast.y, ast.color);
+    updateScore();
     const idx=asteroids.indexOf(ast);
     if(idx>-1) asteroids.splice(idx,1);
     // spawn replacement
