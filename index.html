@@ -471,6 +471,62 @@
   }
   animRing();
 
+  // LASER ON CLICK
+  const laserCanvas = document.createElement('canvas');
+  laserCanvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:99997';
+  document.body.appendChild(laserCanvas);
+  const lc = laserCanvas.getContext('2d');
+  function resizeLaser(){laserCanvas.width=window.innerWidth;laserCanvas.height=window.innerHeight}
+  resizeLaser();
+  window.addEventListener('resize', resizeLaser);
+
+  const lasers = [];
+  const laserColors = ['#39FF14','#FF00FF','#00FFFF','#FFB347'];
+
+  document.addEventListener('click', e => {
+    const color = laserColors[Math.floor(Math.random()*laserColors.length)];
+    const angle = Math.random() * Math.PI * 2;
+    const len = Math.max(window.innerWidth, window.innerHeight) * 1.5;
+    lasers.push({
+      x: e.clientX, y: e.clientY,
+      angle, len, color,
+      life: 1, decay: 0.04,
+      width: Math.random() * 2 + 1
+    });
+    // burst of 3 rays
+    for(let i=0;i<2;i++){
+      lasers.push({
+        x: e.clientX, y: e.clientY,
+        angle: angle + (Math.random()-.5)*0.6,
+        len: len * (0.5+Math.random()*.5),
+        color, life: 1, decay: 0.05 + Math.random()*.03,
+        width: Math.random() * 1.5 + 0.5
+      });
+    }
+  });
+
+  function drawLasers(){
+    lc.clearRect(0,0,laserCanvas.width,laserCanvas.height);
+    for(let i=lasers.length-1;i>=0;i--){
+      const l = lasers[i];
+      lc.save();
+      lc.globalAlpha = l.life;
+      lc.strokeStyle = l.color;
+      lc.lineWidth = l.width;
+      lc.shadowColor = l.color;
+      lc.shadowBlur = 12;
+      lc.beginPath();
+      lc.moveTo(l.x, l.y);
+      lc.lineTo(l.x + Math.cos(l.angle)*l.len, l.y + Math.sin(l.angle)*l.len);
+      lc.stroke();
+      lc.restore();
+      l.life -= l.decay;
+      if(l.life <= 0) lasers.splice(i,1);
+    }
+    requestAnimationFrame(drawLasers);
+  }
+  drawLasers();
+
   // SCROLL REVEAL
   const obs=new IntersectionObserver(entries=>{
     entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
