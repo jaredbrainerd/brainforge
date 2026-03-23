@@ -117,6 +117,60 @@
   .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}
   .reveal.visible{opacity:1;transform:none}
   .nebula{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+
+  @media(max-width:480px){
+    nav{padding:1rem 1.2rem}
+    .nav-links{display:none}
+    .nav-logo{font-size:.65rem}
+    .nav-status{font-size:.55rem}
+
+    .hero{padding:6rem 1.2rem 3rem}
+    .hero-corner.tl,.hero-corner.bl,.hero-corner.br{display:none}
+    .hero-corner.tr{font-size:.5rem;gap:6px}
+    .hero-corner.tr svg{width:16px;height:16px}
+    .hero-eyebrow{font-size:.55rem;letter-spacing:.25em;margin-bottom:1rem}
+    .hero-name{font-size:clamp(3.5rem,22vw,5rem)}
+    .hero-sub{flex-direction:column;gap:2rem;align-items:flex-start;margin-top:2rem}
+    .hero-desc{max-width:100%;font-size:.85rem}
+    .hero-stats{gap:1.8rem}
+    .stat-num{font-size:1.5rem}
+    .stat-label{font-size:.55rem}
+    .hero-cta{margin-top:2.5rem}
+    .btn-primary{font-size:.6rem;padding:.75rem 1.5rem}
+
+    .marquee-item{font-size:.55rem;padding:0 1.5rem}
+    .marquee-item::before{margin-right:1.5rem}
+
+    .clients-bar .fade-l{padding:0 1rem}
+    .ctrack{padding-left:160px}
+    .ci{font-size:.55rem;padding:0 1.2rem}
+
+    section{padding:4rem 1.2rem}
+    .section-header{margin-bottom:2.5rem}
+
+    .exp-item{grid-template-columns:1fr;gap:0}
+    .exp-year{font-size:3rem;margin-bottom:.5rem}
+    .exp-year span{font-size:1.5rem}
+    .exp-company{font-size:1.8rem}
+    .exp-tags{grid-template-columns:1fr;gap:.4rem}
+    .exp-desc{font-size:.85rem}
+
+    .about-inner{grid-template-columns:1fr;gap:3rem}
+    .big-text{font-size:clamp(2rem,9vw,2.8rem)}
+    .about-body{font-size:.85rem}
+    .skills-grid{grid-template-columns:1fr 1fr}
+
+    .services-grid{grid-template-columns:1fr}
+    .service-card{padding:2rem 1.2rem}
+    .service-name{font-size:1.2rem}
+
+    .contact-inner{grid-template-columns:1fr;gap:3rem}
+    .contact-headline{font-size:clamp(2.5rem,14vw,4rem)}
+    .form-submit{font-size:.6rem;padding:.9rem 1.8rem}
+
+    footer{flex-direction:column;gap:1.2rem;text-align:center;padding:1.5rem 1.2rem}
+    .footer-links{gap:1.2rem;flex-wrap:wrap;justify-content:center}
+  }
 </style>
 </head>
 <body>
