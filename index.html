@@ -35,7 +35,7 @@
   .hero-corner.tr{top:7rem;right:2.5rem;text-align:right;display:flex;align-items:flex-start;gap:10px}
   .hero-corner.bl{bottom:2rem;left:2.5rem}
   .hero-corner.br{bottom:2rem;right:2.5rem;text-align:right}
-  .hero-eyebrow{font-family:'Space Mono',monospace;font-size:.75rem;letter-spacing:.4em;color:var(--mg);text-transform:uppercase;margin-bottom:1.5rem}
+  .hero-eyebrow{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.4em;color:var(--mg);text-transform:uppercase;margin-bottom:1.5rem}
   .hero-name{font-size:clamp(5rem,14vw,13rem);font-weight:700;line-height:.88;letter-spacing:-.03em;text-transform:uppercase}
   .hero-name .line1{color:var(--wh);display:block}
   .hero-name .line2{display:block;color:transparent;-webkit-text-stroke:1.5px var(--bio)}
@@ -203,7 +203,7 @@
   </div>
   <div class="hero-corner bl">SCROLL TO EXPLORE ↓</div>
   <div class="hero-corner br">© 2026</div>
-  <div class="hero-eyebrow">🧑🏼‍🚀 Product Designer &amp; Creative Director</div>
+  <div class="hero-eyebrow">👱 Product Designer &amp; Creative Director</div>
   <h1 class="hero-name">
     <span class="line1">JARED</span>
     <span class="line2">BRAINERD</span>
@@ -324,11 +324,11 @@
       <p class="about-body">When I'm not designing, you'll find me somewhere outside — hiking a trail, chasing a summit, or just breathing in the Colorado air. Nature has a way of resetting the mind and sharpening the eye. The best ideas tend to show up when you're far from a screen.</p>
       <div class="skills-grid">
         <div class="skill-cell">Visual Identity</div>
-        <div class="skill-cell">Creative Direction</div>
-        <div class="skill-cell">Design Consultation</div>
-        <div class="skill-cell">Product Design</div>
+        <div class="skill-cell">Art Direction</div>
+        <div class="skill-cell">Typography</div>
+        <div class="skill-cell">Poster Design</div>
         <div class="skill-cell">Brand Systems</div>
-        <div class="skill-cell">UX / UI Integrations</div>
+        <div class="skill-cell">Editorial</div>
         <div class="skill-cell">Figma / AI</div>
         <div class="skill-cell">Print &amp; Digital</div>
       </div>
@@ -400,6 +400,8 @@
   <span class="footer-copy">© 2026 Jared Brainerd / Brainforge Studio. All rights reserved.</span>
   <div class="footer-links">
     <a href="#">Instagram</a>
+    <a href="#">Behance</a>
+    <a href="#">Are.na</a>
     <a href="#">LinkedIn</a>
   </div>
 </footer>
@@ -527,8 +529,8 @@
     asteroids.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,rot:Math.random()*Math.PI*2,rotSpeed:(Math.random()-.5)*.02,r,verts,color:astColors[Math.floor(Math.random()*astColors.length)]});
   }
 
-  for(let i=0;i<6;i++) spawnAsteroid();
-  setInterval(()=>{ if(gameOn && asteroids.length<10) spawnAsteroid(); },1800);
+  for(let i=0;i<3;i++) spawnAsteroid();
+  setInterval(()=>{ if(gameOn && asteroids.length<5) spawnAsteroid(); },2500);
 
   function spawnDebris(x,y,color){
     for(let i=0;i<12;i++){const a=Math.random()*Math.PI*2,sp=Math.random()*3+1;debris.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:1,decay:.03+Math.random()*.04,r:Math.random()*4+1,color});}
