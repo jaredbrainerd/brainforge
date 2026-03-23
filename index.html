@@ -324,11 +324,11 @@
       <p class="about-body">When I'm not designing, you'll find me somewhere outside — hiking a trail, chasing a summit, or just breathing in the Colorado air. Nature has a way of resetting the mind and sharpening the eye. The best ideas tend to show up when you're far from a screen.</p>
       <div class="skills-grid">
         <div class="skill-cell">Visual Identity</div>
-        <div class="skill-cell">Art Direction</div>
-        <div class="skill-cell">Typography</div>
-        <div class="skill-cell">Poster Design</div>
+        <div class="skill-cell">Creative Direction</div>
+        <div class="skill-cell">Design Consultation</div>
+        <div class="skill-cell">Product Design</div>
         <div class="skill-cell">Brand Systems</div>
-        <div class="skill-cell">Editorial</div>
+        <div class="skill-cell">UX / UI Integrations</div>
         <div class="skill-cell">Figma / AI</div>
         <div class="skill-cell">Print &amp; Digital</div>
       </div>
@@ -400,8 +400,6 @@
   <span class="footer-copy">© 2026 Jared Brainerd / Brainforge Studio. All rights reserved.</span>
   <div class="footer-links">
     <a href="#">Instagram</a>
-    <a href="#">Behance</a>
-    <a href="#">Are.na</a>
     <a href="#">LinkedIn</a>
   </div>
 </footer>
@@ -414,7 +412,7 @@
   function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
   resize();
   window.addEventListener('resize',resize);
-  for(let i=0;i<280;i++){
+  for(let i=0;i<120;i++){
     stars.push({x:Math.random(),y:Math.random(),r:Math.random()*1.2+.2,a:Math.random()*.7+.2,speed:Math.random()*.0002+.00005,color:['#ffffff','#7FFFD4','#FF00FF','#39FF14','#FFB347'][Math.floor(Math.random()*5)]});
   }
   function drawStars(){
@@ -552,7 +550,7 @@
         a.x+=a.vx;a.y+=a.vy;a.rot+=a.rotSpeed;
         if(a.x<-200||a.x>w+200||a.y<-200||a.y>h+200){asteroids.splice(i,1);spawnAsteroid();continue;}
         ac.save();ac.translate(a.x,a.y);ac.rotate(a.rot);
-        ac.strokeStyle=a.color;ac.lineWidth=1.5;ac.shadowColor=a.color;ac.shadowBlur=6;
+        ac.strokeStyle=a.color;ac.lineWidth=1.5;
         ac.beginPath();ac.moveTo(a.verts[0].x,a.verts[0].y);
         for(let v=1;v<a.verts.length;v++) ac.lineTo(a.verts[v].x,a.verts[v].y);
         ac.closePath();ac.stroke();ac.restore();
@@ -561,7 +559,7 @@
     for(let i=debris.length-1;i>=0;i--){
       const d=debris[i];d.x+=d.vx;d.y+=d.vy;d.vy+=.05;d.life-=d.decay;
       if(d.life<=0){debris.splice(i,1);continue;}
-      ac.save();ac.globalAlpha=d.life;ac.fillStyle=d.color;ac.shadowColor=d.color;ac.shadowBlur=8;
+      ac.save();ac.globalAlpha=d.life;ac.fillStyle=d.color;
       ac.beginPath();ac.arc(d.x,d.y,d.r,0,Math.PI*2);ac.fill();ac.restore();
     }
     requestAnimationFrame(drawGame);
@@ -601,7 +599,7 @@
     if(gameOn){
       for(let i=lasers.length-1;i>=0;i--){
         const l=lasers[i];
-        lc.save();lc.globalAlpha=l.life;lc.strokeStyle=l.color;lc.lineWidth=l.width;lc.shadowColor=l.color;lc.shadowBlur=12;
+        lc.save();lc.globalAlpha=l.life;lc.strokeStyle=l.color;lc.lineWidth=l.width;
         lc.beginPath();lc.moveTo(l.x,l.y);lc.lineTo(l.x+Math.cos(l.angle)*l.len,l.y+Math.sin(l.angle)*l.len);lc.stroke();lc.restore();
         l.life-=l.decay;if(l.life<=0) lasers.splice(i,1);
       }
