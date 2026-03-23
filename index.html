@@ -599,6 +599,7 @@
   const laserColors = ['#39FF14','#FF00FF','#00FFFF','#FFB347'];
 
   document.addEventListener('click', e => {
+    if(e.target.id === 'ast-toggle') return;
     const color = laserColors[Math.floor(Math.random()*laserColors.length)];
     const angle = Math.random() * Math.PI * 2;
     const len = Math.max(window.innerWidth, window.innerHeight) * 1.5;
