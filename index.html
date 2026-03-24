@@ -4,12 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brainforge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&family=Space+Mono:wght@400;700&display=swap');
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   :root{--lime:#39FF14;--mg:#FF00FF;--cy:#39FF14;--amber:#FFB347;--bio:#39FF14;--wh:#E8F4F8;--bk:#080808;--deep:#0a0a0a;--mid:#111111}
   html{scroll-behavior:smooth}
-  body{background:var(--bk);color:var(--wh);font-family:'Space Grotesk',sans-serif;overflow-x:hidden;cursor:crosshair}
+  body{background:var(--bk);color:var(--wh);font-family:'Space Grotesk',sans-serif;overflow-x:hidden;cursor:crosshair;opacity:0;animation:fadeIn .8s ease .15s forwards}
+  @keyframes fadeIn{to{opacity:1}}
   canvas#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
   .blob{position:absolute;border-radius:50%;filter:blur(120px);opacity:.12;animation:drift 20s ease-in-out infinite alternate}
   .blob1{width:700px;height:700px;background:#FF00FF;top:-200px;left:-200px;animation-duration:25s}
