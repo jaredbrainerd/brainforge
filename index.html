@@ -366,7 +366,7 @@ footer{background:var(--deep);color:var(--stone);padding:2.5rem 8%;display:flex;
       <div class="exp-years">2022<br/>Present</div>
       <div class="exp-role">
         <h3>AG1</h3>
-        <div class="title">Principal Product Designer</div>
+        <div class="title">Principal Product Designer · Senior Product Designer</div>
         <p>Shaping the product design vision for one of the world's fastest-growing health brands. Leading design systems, UX strategy, and cross-functional creative direction across digital touchpoints.</p>
       </div>
       <div class="exp-tags">
@@ -378,7 +378,7 @@ footer{background:var(--deep);color:var(--stone);padding:2.5rem 8%;display:flex;
       <div class="exp-years">2019<br/>2022</div>
       <div class="exp-role">
         <h3>Honey <span style="font-size:1rem;font-weight:300;color:var(--stone);letter-spacing:.04em;font-style:italic;">acquired by PayPal</span></h3>
-        <div class="title">Senior Product Designer</div>
+        <div class="title">Product Designer II</div>
         <p>Designed core consumer experiences for Honey's savings and rewards platform through hyper-growth and a $4B acquisition by PayPal. Drove end-to-end product design across web and mobile.</p>
       </div>
       <div class="exp-tags">
@@ -552,8 +552,51 @@ document.addEventListener('mousemove', e => {
   cur.style.left = e.clientX + 'px';
   cur.style.top  = e.clientY + 'px';
 });
-document.addEventListener('mousedown', () => cur.style.transform = 'translate(-50%,-50%) scale(0.8) rotate(-20deg)');
-document.addEventListener('mouseup',   () => cur.style.transform = 'translate(-50%,-50%) scale(1) rotate(0deg)');
+
+function spawnChips(x, y) {
+  const chips = ['🪵','🪵','✦','·','·','·'];
+  const count = 4 + Math.floor(Math.random() * 3);
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    el.textContent = chips[Math.floor(Math.random() * chips.length)];
+    const angle = (Math.random() * 260) - 130; // spread upward
+    const dist  = 30 + Math.random() * 60;
+    const rad   = (angle - 90) * Math.PI / 180;
+    const tx    = Math.cos(rad) * dist;
+    const ty    = Math.sin(rad) * dist;
+    const size  = 8 + Math.random() * 10;
+    Object.assign(el.style, {
+      position:   'fixed',
+      left:       x + 'px',
+      top:        y + 'px',
+      fontSize:   size + 'px',
+      lineHeight: '1',
+      pointerEvents: 'none',
+      zIndex:     9998,
+      opacity:    '1',
+      transform:  'translate(-50%,-50%)',
+      transition: `transform ${0.35 + Math.random() * 0.25}s ease-out, opacity ${0.3 + Math.random() * 0.2}s ease-out`,
+      color:      ['#c8a86a','#a07840','#e8c890','#d4b870','#8aaa8c'][Math.floor(Math.random()*5)],
+    });
+    document.body.appendChild(el);
+    requestAnimationFrame(() => {
+      el.style.transform = `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) rotate(${Math.random()*360}deg)`;
+      el.style.opacity   = '0';
+    });
+    setTimeout(() => el.remove(), 700);
+  }
+  // axe swing
+  cur.style.transform = 'translate(-50%,-50%) rotate(-35deg) scale(0.85)';
+  setTimeout(() => { cur.style.transform = 'translate(-50%,-50%) rotate(0deg) scale(1)'; }, 180);
+}
+
+document.addEventListener('click', e => spawnChips(e.clientX, e.clientY));
+document.addEventListener('mousedown', () => {
+  cur.style.transform = 'translate(-50%,-50%) rotate(-20deg) scale(0.85)';
+});
+document.addEventListener('mouseup', () => {
+  cur.style.transform = 'translate(-50%,-50%) scale(1) rotate(0deg)';
+});
 
 const ham = document.getElementById('ham');
 const drawer = document.getElementById('drawer');
